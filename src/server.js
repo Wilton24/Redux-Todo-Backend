@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 // Mount todo routes
-app.use("/api/todos", todoRoutes);
+app.use("/todos", todoRoutes);
 
 app.get("/test-db", async (req, res) => {
     try {
