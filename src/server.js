@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import { getTodos } from "./controllers/todoController.js";
+import todoRoutes from "./routes/todoRoutes.js";
 
 dotenv.config();
 
-const router = express.Router();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,20 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 
-router.get("/", getTodos);
+
+// Mount todo routes
+app.use("/api/todos", todoRoutes);
+
+app.get("/test-db", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT NOW()");
+        res.json({ db_time: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 
 
 // Start server
