@@ -1,21 +1,30 @@
 import express from "express";
 import dotenv from "dotenv";
 import todoRoutes from "./routes/todoRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
 
 
-
 // Mount todo routes
 app.use("/todos", todoRoutes);
+
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to the Redux Todo API" });
+});
+
+console.log("Working Backend");
+
 
 app.get("/test-db", async (req, res) => {
     try {
@@ -25,9 +34,6 @@ app.get("/test-db", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
-
 
 // Start server
 app.listen(PORT, () => {
